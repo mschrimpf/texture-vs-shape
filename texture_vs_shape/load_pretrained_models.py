@@ -20,7 +20,7 @@ def load_model(model_name):
 
     model = torchvision.models.resnet50(pretrained=False)
     model = torch.nn.DataParallel(model)
-    checkpoint = model_zoo.load_url(model_urls[model_name])
+    checkpoint = model_zoo.load_url(model_urls[model_name], map_location=lambda storage, loc: storage)  # map onto cpu
     model.load_state_dict(checkpoint["state_dict"])
     model = model.module
     return model
